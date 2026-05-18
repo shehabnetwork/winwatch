@@ -1,6 +1,6 @@
 pywin32==308
-psutil==5.9.8
+psutil==6.1.1
 pystray==0.19.5
-Pillow==10.3.0
-Flask==3.0.3
-pyinstaller==6.6.0
+Pillow==11.2.1
+Flask==3.1.1
+pyinstaller==6.11.1
