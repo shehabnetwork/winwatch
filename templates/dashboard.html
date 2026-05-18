@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen Time Monitor</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="logo">&#128187; Screen Time Monitor</span>
+            <span class="subtitle" id="header-user"></span>
+        </div>
+    </header>
+
+    <main>
+        <!-- ── Tab bar ─────────────────────────────────────────────────── -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="app-sessions">App Sessions</button>
+            <button class="tab-btn" data-tab="login-sessions">Login Sessions</button>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════════ -->
+        <!-- APP SESSIONS TAB                                               -->
+        <!-- ══════════════════════════════════════════════════════════════ -->
+        <section id="tab-app-sessions" class="tab-panel active">
+            <!-- Filter bar -->
+            <div class="filter-bar" id="app-filter-bar">
+                <div class="filter-row">
+                    <label>
+                        User
+                        <select id="app-username">
+                            <option value="">All users</option>
+                        </select>
+                    </label>
+                    <label>
+                        App name
+                        <input type="text" id="app-appname" placeholder="e.g. chrome" />
+                    </label>
+                    <label>
+                        EXE path
+                        <input type="text" id="app-exepath" placeholder="partial path" />
+                    </label>
+                    <label>
+                        From
+                        <input type="date" id="app-datefrom" />
+                    </label>
+                    <label>
+                        To
+                        <input type="date" id="app-dateto" />
+                    </label>
+                    <label>
+                        Min duration (s)
+                        <input type="number" id="app-minduration" min="0" placeholder="0" />
+                    </label>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-primary" id="app-apply">Apply</button>
+                    <button class="btn-secondary" id="app-reset">Reset</button>
+                    <button class="btn-export" id="app-export">&#8595; Export CSV</button>
+                </div>
+            </div>
+
+            <!-- Summary row -->
+            <div class="summary-row" id="app-summary">
+                <span id="app-count">— sessions</span>
+                <span id="app-total-duration">— total time</span>
+            </div>
+
+            <!-- Chart -->
+            <div class="chart-container">
+                <canvas id="app-chart"></canvas>
+            </div>
+
+            <!-- Table -->
+            <div class="table-wrapper">
+                <table id="app-table">
+                    <thead>
+                        <tr>
+                            <th data-col="username" class="sortable">User</th>
+                            <th data-col="app_name" class="sortable">App</th>
+                            <th data-col="exe_path" class="sortable">EXE Path</th>
+                            <th data-col="window_title" class="sortable">Window Title</th>
+                            <th data-col="start_time" class="sortable">Start</th>
+                            <th data-col="end_time" class="sortable">End</th>
+                            <th data-col="duration_seconds" class="sortable">Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="app-tbody"></tbody>
+                </table>
+                <p class="empty-msg" id="app-empty" hidden>No records match the current filters.</p>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════ -->
+        <!-- LOGIN SESSIONS TAB                                             -->
+        <!-- ══════════════════════════════════════════════════════════════ -->
+        <section id="tab-login-sessions" class="tab-panel">
+            <!-- Filter bar -->
+            <div class="filter-bar" id="login-filter-bar">
+                <div class="filter-row">
+                    <label>
+                        User
+                        <select id="login-username">
+                            <option value="">All users</option>
+                        </select>
+                    </label>
+                    <label>
+                        From
+                        <input type="date" id="login-datefrom" />
+                    </label>
+                    <label>
+                        To
+                        <input type="date" id="login-dateto" />
+                    </label>
+                    <label>
+                        Min duration (s)
+                        <input type="number" id="login-minduration" min="0" placeholder="0" />
+                    </label>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-primary" id="login-apply">Apply</button>
+                    <button class="btn-secondary" id="login-reset">Reset</button>
+                    <button class="btn-export" id="login-export">&#8595; Export CSV</button>
+                </div>
+            </div>
+
+            <!-- Summary row -->
+            <div class="summary-row" id="login-summary">
+                <span id="login-count">— sessions</span>
+                <span id="login-total-duration">— total time</span>
+            </div>
+
+            <!-- Table -->
+            <div class="table-wrapper">
+                <table id="login-table">
+                    <thead>
+                        <tr>
+                            <th data-col="username" class="sortable">User</th>
+                            <th data-col="login_time" class="sortable">Login Time</th>
+                            <th data-col="logout_time" class="sortable">Logout Time</th>
+                            <th data-col="duration_seconds" class="sortable">Duration</th>
+                            <th data-col="source" class="sortable">Source</th>
+                        </tr>
+                    </thead>
+                    <tbody id="login-tbody"></tbody>
+                </table>
+                <p class="empty-msg" id="login-empty" hidden>No records match the current filters.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+
+</html>
